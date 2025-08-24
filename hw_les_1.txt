@@ -1,0 +1,54 @@
+﻿Запрос 
+
+
+curl --location 'http://0.0.0.0:8080/time_spent' \
+--header 'Content-Type: application/json' \
+--data '{
+
+
+"time": 20, "activity_id": "21"
+}'
+
+
+1. Разобраться почему 404/405 в логах?
+
+
+WARN request{method=POST path=/time_spent version=HTTP/1.1 remote.addr=172.17.0.1:49702}: warp::filters::trace: unable to serve request (client error) status=405 error=Some(Rejection(MethodNotAllowed))
+
+
+WARN request{method=POST path=/time_spent version=HTTP/1.1 remote.addr=172.17.0.1:53718}: warp::filters::trace: unable to serve request (client error) status=404 error=Some(Rejection(NotFound))
+
+
+2. Приходит в ответе 416
+3. В логах 500 ошибка 
+
+
+ERROR request{method=POST path=/time_spent version=HTTP/1.1 remote.addr=172.17.0.1:49702}: warp::filters::trace: unable to process request (internal error) status=500 error=Some(Rejection(ActivitiesNotFound))
+
+
+  
+4. Поправить синтаксис для ответа 200 “Time added wit id "3"”
+5. Добавить валидацию обязательных полей, сейчас приходит 422
+6. ответ не в json формате
+7. дублирование записей  в логировании
+
+
+
+
+
+
+
+
+
+
+Запрос
+curl --location 'http://0.0.0.0:8080/time_spent/11' \
+--data ''
+
+
+1. В логах 405
+WARN request{method=GET path=/time_spent/11 version=HTTP/1.1 remote.addr=172.17.0.1:52706}: warp::filters::trace: unable to serve request (client error) status=405 error=Some(Rejection(MethodNotAllowed))
+
+
+2. В логах 500
+ERROR request{method=GET path=/time_spent/11 version=HTTP/1.1 remote.addr=172.17.0.1:52706}: warp::filters::trace: unable to process request (internal error) status=500 error=Some(Rejection(TimeSpentNotFound))
