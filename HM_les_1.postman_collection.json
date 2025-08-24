@@ -1,0 +1,170 @@
+{
+	"info": {
+		"_postman_id": "07c73687-615c-4f92-8ece-3533a3494f32",
+		"name": "HM_les_1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2729160"
+	},
+	"item": [
+		{
+			"name": "add_timespent",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const oldId=parseInt(pm.collectionVariables.get(\"activity_id\"));\r",
+							"let activity_id=1;\r",
+							"\r",
+							"if (oldId) {\r",
+							"    activity_id=(oldId+1).toString()\r",
+							"}\r",
+							"\r",
+							"\r",
+							"const time=getRandomInt(10000);\r",
+							"\r",
+							"pm.collectionVariables.set(\"time\",time);\r",
+							"pm.collectionVariables.set(\"activity_id\",activity_id);\r",
+							"\r",
+							"\r",
+							"function getRandomInt(max) {\r",
+							"    return Math.floor(Math.random()*max)\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\r\n\"time\": {{time}},\r\n\"activity_id\": \"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/time_spent",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"time_spent"
+					]
+				},
+				"description": "Generated from cURL: curl options # --silent # include reponse headers --include # to ignore ssl when working with localhost # --verbose # --insecure # to read a header(s) from a file. File fromat should be like: # Header-Name: Header-Value # e.g Authorization: YOUR_AUTH_TOKEN_HERE # -H @/path/to/file.txt # # headers Accept: application/json; Connection: keep-alive Content-Type: application/json; charset=utf-8 User-Agent: VRC"
+			},
+			"response": []
+		},
+		{
+			"name": "time_spent",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"pm.collectionVariables.get(\"activity_id\");\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/time_spent/{{activity_id}}",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"time_spent",
+						"{{activity_id}}"
+					]
+				},
+				"description": "Generated from cURL: curl options # --silent # include reponse headers --include # to ignore ssl when working with localhost # --verbose # --insecure # to read a header(s) from a file. File fromat should be like: # Header-Name: Header-Value # e.g Authorization: YOUR_AUTH_TOKEN_HERE # -H @/path/to/file.txt # # headers Accept: application/json; Connection: keep-alive Content-Type: application/json; charset=utf-8 User-Agent: VRC"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": ""
+		},
+		{
+			"key": "time",
+			"value": ""
+		},
+		{
+			"key": "activity_id",
+			"value": "1"
+		}
+	]
+}
